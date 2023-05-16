@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useGetSocialHandlesQuery } from "../../services/tmdbCore";
 import { Stack, Link, Tooltip, Box } from "@mui/material";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
@@ -54,4 +55,4 @@ const SocialMediaHandles = ({ id, type }) => {
   );
 };
 
-export default SocialMediaHandles;
+export default memo(SocialMediaHandles);

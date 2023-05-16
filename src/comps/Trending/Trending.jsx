@@ -11,7 +11,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     justifyContent: "center",
-    margin: "40px 0 30px 0",
+    margin: "30px auto",
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
   },
 }));
 
@@ -26,7 +29,7 @@ const Trending = () => {
     if (value === 1) {
       return navigate("/");
     }
-    navigate(`/page/${value}`);
+    navigate(`/${value}`);
   };
 
   if (isFetching) return <Loader />;
@@ -52,11 +55,11 @@ const Trending = () => {
         {trending.results &&
           trending.results.map((tc) => (
             <SingleContent
+              page="trending"
               key={tc.id}
               id={tc.id}
               title={tc.title || tc.name}
               posterPath={tc.poster_path}
-              releaseDate={tc.release_date}
               voteAverage={tc.vote_average}
               mediaType={tc.media_type}
             />

@@ -35,9 +35,8 @@ const Carousel = ({ carouselContent }) => {
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
-              width: { xs: "100px", md: "140px" },
-              height: { xs: "110px", md: "170px" },
-              marginTop: { xs: "10px", md: "inherit" },
+              width: { xs: "120px", md: "140px" },
+              height: { xs: "130px", md: "170px" },
               margin: "10px",
               boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
             }}

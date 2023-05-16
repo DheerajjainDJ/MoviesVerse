@@ -6,12 +6,20 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Whatshot, Movie, Tv, Search } from "@mui/icons-material";
 import { useStyles } from "./HeaderStyles";
 
 const NavList = () => {
   const classes = useStyles();
+
+  const navLinkStyles = ({ isActive }) => {
+    return {
+      fontWeight: isActive ? "bolder" : "normal",
+      color: isActive ? "red" : "black",
+      textDecoration: "none",
+    };
+  };
   return (
     <List
       sx={{
@@ -20,7 +28,7 @@ const NavList = () => {
         color: "black",
       }}
     >
-      <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
+      <NavLink to="/" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{
@@ -36,8 +44,8 @@ const NavList = () => {
             primary={<Typography variant="subtitle1">Trending</Typography>}
           />
         </ListItem>
-      </Link>
-      <Link to="/movie/1" style={{ textDecoration: "none", color: "#fff" }}>
+      </NavLink>
+      <NavLink to="/movie/1" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{
@@ -53,8 +61,8 @@ const NavList = () => {
             primary={<Typography>Movies</Typography>}
           />
         </ListItem>
-      </Link>
-      <Link to="/tv/1" style={{ textDecoration: "none", color: "#fff" }}>
+      </NavLink>
+      <NavLink to="/tv/1" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{
@@ -70,8 +78,8 @@ const NavList = () => {
             primary={<Typography>TV</Typography>}
           />
         </ListItem>
-      </Link>
-      <Link to="/search" style={{ textDecoration: "none", color: "#fff" }}>
+      </NavLink>
+      <NavLink to="/search" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{
@@ -87,7 +95,7 @@ const NavList = () => {
             primary={<Typography>Search</Typography>}
           />
         </ListItem>
-      </Link>
+      </NavLink>
     </List>
   );
 };

@@ -7,10 +7,8 @@ export const tmdbCoreApi = createApi({
   }),
   endpoints: (builder) => ({
     getTrendingData: builder.query({
-      query: (page) =>
-        `/3/trending/all/day?api_key=1d7ae0508105d90d7af9b43e174d4f9d&page=${
-          page ? page : 1
-        }`,
+      query: (page = 1) =>
+        `/3/trending/all/day?api_key=1d7ae0508105d90d7af9b43e174d4f9d&page=${page}`,
     }),
     getDetailInfo: builder.query({
       query: ({ type, id }) =>

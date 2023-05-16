@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
 const SearchStates = ({ url, text }) => {
   return (
@@ -29,4 +29,4 @@ const SearchStates = ({ url, text }) => {
   );
 };
 
-export default SearchStates;
+export default memo(SearchStates);

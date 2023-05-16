@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,15 +28,15 @@ const TV = () => {
     }
   }, [dispatch]);
 
-  const selectedGenreHandler = (genre) => {
+  const selectedGenreHandler = useCallback((genre) => {
     dispatch(selectGenres(genre));
     navigate("/tv/1");
-  };
+  }, []);
 
-  const selectedDeletionHandler = (genre) => {
+  const selectedDeletionHandler = useCallback((genre) => {
     dispatch(removeSelectedGenres(genre));
     navigate("/tv/1");
-  };
+  }, []);
 
   if (isFetching) return <Loader />;
   return (
@@ -46,7 +46,6 @@ const TV = () => {
       </Typography>
       <Box py="16px" textAlign="center">
         <Genres
-          type="tv"
           genres={tvGenres}
           selectedGenres={selectedTvGenres}
           selectedGenreHandler={selectedGenreHandler}
@@ -69,12 +68,11 @@ const TV = () => {
               title={tc.name || tc.original_name}
               posterPath={tc.poster_path}
               voteAverage={tc.vote_average}
-              releaseDate={tc.release_date}
             />
           ))}
       </Grid>
       <CustomPagination
-        type={"tv"}
+        type="tv"
         page={page}
         totalPage={tvData?.total_pages > 200 ? 200 : tvData?.total_pages}
       />

@@ -21,8 +21,10 @@ function App() {
           <Suspense fallback={<CircularProgress />}>
             <Box mt={"55px"}>
               <Routes>
-                <Route exact path="/" element={<Trending />} />
-                <Route path="page/:page" element={<Trending />} />
+                <Route path="/">
+                  <Route index element={<Trending />} />
+                  <Route path=":page" element={<Trending />} />
+                </Route>
                 <Route exact path="movie/:page" element={<Movies />} />
                 <Route exact path="tv/:page" element={<TV />} />
                 <Route exact path="search" element={<Search />} />

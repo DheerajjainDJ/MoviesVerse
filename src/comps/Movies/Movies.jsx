@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,15 +33,15 @@ const Movies = () => {
     }
   }, [dispatch]);
 
-  const selectedGenreHandler = (genre) => {
+  const selectedGenreHandler = useCallback((genre) => {
     dispatch(selectGenres(genre));
     navigate("/movie/1");
-  };
+  }, []);
 
-  const selectedDeletionHandler = (genre) => {
+  const selectedDeletionHandler = useCallback((genre) => {
     dispatch(removeSelectedGenres(genre));
     navigate("/movie/1");
-  };
+  }, []);
 
   if (isFetching) return <Loader />;
   return (
@@ -73,12 +73,11 @@ const Movies = () => {
               title={mc.title || mc.original_title}
               posterPath={mc.poster_path}
               voteAverage={mc.vote_average}
-              releaseDate={mc.release_date}
             />
           ))}
       </Grid>
       <CustomPagination
-        type={"movie"}
+        type="movie"
         page={page}
         totalPage={
           moviesData && moviesData?.total_pages > 400

@@ -10,7 +10,6 @@ export const useStyles = makeStyles((theme) => ({
   list: {
     position: "relative",
     margin: "0 10px",
-    color: "black",
     [theme.breakpoints.down("md")]: {
       width: "100%",
       padding: "10px 100px",

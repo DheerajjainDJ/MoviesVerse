@@ -70,7 +70,7 @@ const MoreCarousel = ({ type, content }) => {
                 component="img"
                 loading="lazy"
                 src={c.poster_path ? `${img_300}${c.poster_path}` : unavailable}
-                alt="similar"
+                alt={c.title || c.name}
                 className={classes.carouselImage}
               />
             </Box>

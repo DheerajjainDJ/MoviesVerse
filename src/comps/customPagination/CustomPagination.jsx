@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     margin: "40px 0 30px 0",
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
   },
 }));
 const CustomPagination = ({ type, page, totalPage }) => {

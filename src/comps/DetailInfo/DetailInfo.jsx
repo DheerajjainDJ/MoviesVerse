@@ -113,13 +113,21 @@ const DetailInfo = () => {
                           content?.genres.map((item) => item.name).join(", ")}
                       </Typography>
                     </Stack>
-                    <Typography
-                      sx={{ fontSize: { xs: "15px", md: "21px" } }}
-                      gutterBottom
-                    >
-                      Release Date :{" "}
-                      {content?.release_date || content?.first_air_date}
-                    </Typography>
+                    {(content?.release_date || content?.first_air_date) && (
+                      <Typography
+                        sx={{ fontSize: { xs: "15px", md: "21px" } }}
+                        gutterBottom
+                      >
+                        Release Date :{" "}
+                        {new Date(
+                          content?.release_date || content?.first_air_date
+                        ).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </Typography>
+                    )}
                     <Box>
                       <Suspense fallback={<CircularProgress />}>
                         <SocialMediaHandles id={id} type={type} />

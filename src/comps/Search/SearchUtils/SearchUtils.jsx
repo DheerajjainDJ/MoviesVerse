@@ -47,12 +47,12 @@ const SearchUtils = () => {
   }, [searchText, skipSuggestion]);
 
   const handleTextChange = (e) => {
-    setSkipSuggestion(false);
+    // setSkipSuggestion(false);
     let value = e.target.value;
-    if (value === "") {
+    if (value === " ") {
       setSuggestions([]);
     }
-    dispatch(setSearchText(e.target.value));
+    dispatch(setSearchText(value));
   };
   const handleSubmit = (e) => {
     e.preventDefault();

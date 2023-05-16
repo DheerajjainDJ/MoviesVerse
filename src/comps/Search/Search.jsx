@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     margin: "40px 0 30px 0",
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
   },
 }));
 
@@ -35,7 +38,7 @@ const Search = () => {
   }, [dispatch, searchQuery, page]);
 
   const handlePageChange = (current, value) => {
-    setSearchParams({ query: searchParams.get("query"), page: value });
+    setSearchParams({ query: searchQuery, page: value });
   };
   return (
     <Container maxWidth="lg">
@@ -62,6 +65,7 @@ const Search = () => {
               searchState?.results &&
               searchState?.results.map((c) => (
                 <SingleContent
+                  page="search"
                   key={c.id}
                   id={c.id}
                   title={c.title || c.name}

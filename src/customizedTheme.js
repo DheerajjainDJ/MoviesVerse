@@ -44,6 +44,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: "2px 10px",
+        },
+      },
+    },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
