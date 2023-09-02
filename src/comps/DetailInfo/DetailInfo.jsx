@@ -7,12 +7,13 @@ import {
   CardMedia,
   Divider,
   Typography,
+  Skeleton,
   CircularProgress,
 } from "@mui/material";
 import React, { useState, lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { useStyles } from "./DetailInfoStyles";
-import { img_300, unavailable } from "../../utils";
+import { img_300, unavailable, durToHr } from "../../utils/utils";
 import { useGetDetailInfoQuery } from "../../services/tmdbCore";
 const MoreInfo = lazy(() => import("./MoreInfo"));
 const SocialMediaHandles = lazy(() => import("./SocialMediaHandles"));
@@ -21,26 +22,14 @@ const DetailInfo = () => {
   const { id, type } = useParams();
   const classes = useStyles();
   const [isReadMore, setIsReadMore] = useState(true);
-  const { data: content } = useGetDetailInfoQuery({ type, id });
+  const {
+    data: content,
+    isLoading,
+    isFetching,
+  } = useGetDetailInfoQuery({ type, id });
 
   const handleIsReadMore = () => {
     setIsReadMore(!isReadMore);
-  };
-
-  const durToHr = (duration) => {
-    let hr = Math.floor(duration / 60);
-    let min = Math.floor(duration % 60);
-
-    if (!hr & !min) {
-      return "";
-    }
-    if (hr === 0) {
-      return `${min}min`;
-    } else if (min === 0) {
-      return `${hr}h`;
-    } else {
-      return `${hr}h ${min}min`;
-    }
   };
 
   return (
@@ -62,27 +51,45 @@ const DetailInfo = () => {
                       height: "440px",
                     }}
                   >
-                    <CardMedia
-                      component="img"
-                      alt="poster"
-                      height="440px"
-                      style={{ objectFit: "fill" }}
-                      image={
-                        content?.poster_path
-                          ? `${img_300}${content?.poster_path}`
-                          : unavailable
-                      }
-                    />
+                    {isLoading || isFetching ? (
+                      <Skeleton
+                        variant="rounded"
+                        sx={{ bgcolor: "grey.900" }}
+                      />
+                    ) : (
+                      <CardMedia
+                        component="img"
+                        alt="poster"
+                        height="440px"
+                        style={{ objectFit: "fill" }}
+                        image={
+                          content?.poster_path
+                            ? `${img_300}${content?.poster_path}`
+                            : unavailable
+                        }
+                      />
+                    )}
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={11} md={11} lg={7}>
                   <Box className={classes.gridItem2}>
                     <Box display="flex" color="#fff">
-                      <Typography sx={{ fontSize: { xs: "20px", md: "40px" } }}>
-                        {content?.title || content?.name}
+                      <Typography
+                        sx={{ fontSize: { xs: "1.1rem", md: "2.4rem" } }}
+                      >
+                        {isLoading ? (
+                          <Skeleton
+                            sx={{ backgroundColor: "red" }}
+                            variant="text"
+                          />
+                        ) : (
+                          content?.title || content?.name
+                        )}
                       </Typography>
                       &nbsp;&nbsp;
-                      <Typography sx={{ fontSize: { xs: "20px", md: "40px" } }}>
+                      <Typography
+                        sx={{ fontSize: { xs: "1.1rem", md: "2.4rem" } }}
+                      >
                         (
                         {content?.release_date?.split("-")[0] ||
                           content?.first_air_date?.split("-")[0]}
@@ -95,7 +102,9 @@ const DetailInfo = () => {
                       alignItems="center"
                       my={1}
                     >
-                      <Typography sx={{ fontSize: { xs: "15px", md: "22px" } }}>
+                      <Typography
+                        sx={{ fontSize: { xs: "1rem", md: "1.5rem" } }}
+                      >
                         {type === "movie"
                           ? durToHr(content?.runtime)
                           : durToHr(content?.episode_run_time)}
@@ -105,27 +114,37 @@ const DetailInfo = () => {
                       ) : null}
                       <Typography
                         sx={{
-                          fontSize: { xs: "15px", md: "22px" },
+                          fontSize: { xs: "1rem", md: "1.5rem" },
                           textAlign: { xs: "center", md: "initial" },
                         }}
                       >
-                        {content &&
-                          content?.genres.map((item) => item.name).join(", ")}
+                        {isLoading ? (
+                          <Skeleton variant="text" />
+                        ) : (
+                          content &&
+                          content?.genres.map((item) => item.name).join(", ")
+                        )}
                       </Typography>
                     </Stack>
                     {(content?.release_date || content?.first_air_date) && (
                       <Typography
-                        sx={{ fontSize: { xs: "15px", md: "21px" } }}
+                        sx={{ fontSize: { xs: "1rem", md: "1.4rem" } }}
                         gutterBottom
                       >
-                        Release Date :{" "}
-                        {new Date(
-                          content?.release_date || content?.first_air_date
-                        ).toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {isLoading ? (
+                          <Skeleton variant="text" />
+                        ) : (
+                          <>
+                            Release Date :{" "}
+                            {new Date(
+                              content?.release_date || content?.first_air_date
+                            ).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </>
+                        )}
                       </Typography>
                     )}
                     <Box>
@@ -139,9 +158,13 @@ const DetailInfo = () => {
                           Overview
                         </Typography>
                         <Typography className={classes.overViewText}>
-                          {isReadMore
-                            ? content?.overview.slice(0, 150)
-                            : content?.overview}
+                          {isLoading ? (
+                            <Skeleton variant="text" />
+                          ) : isReadMore ? (
+                            content?.overview.slice(0, 150)
+                          ) : (
+                            content?.overview
+                          )}
 
                           <Typography
                             onClick={handleIsReadMore}

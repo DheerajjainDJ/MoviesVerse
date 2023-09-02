@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { img_300 } from "../../utils";
+import { img_300 } from "../../utils/utils";
 
 const Carousel = ({ carouselContent }) => {
   const handleDragStart = (e) => e.preventDefault();
@@ -20,8 +20,8 @@ const Carousel = ({ carouselContent }) => {
             onDragStart={handleDragStart}
             sx={{
               borderRadius: "100%",
-              width: { xs: "120px", md: "140px" },
-              height: { xs: "130px", md: "170px" },
+              width: { xs: "110px", md: "150px" },
+              height: { xs: "110px", md: "150px" },
               margin: "10px",
               boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
             }}
@@ -35,8 +35,8 @@ const Carousel = ({ carouselContent }) => {
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
-              width: { xs: "120px", md: "140px" },
-              height: { xs: "130px", md: "170px" },
+              width: { xs: "110px", md: "150px" },
+              height: { xs: "110px", md: "150px" },
               margin: "10px",
               boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
             }}
@@ -62,13 +62,13 @@ const Carousel = ({ carouselContent }) => {
 
   const responsive = {
     0: {
-      items: 2,
+      items: 3,
     },
     512: {
-      items: 4,
+      items: 3,
     },
     1024: {
-      items: 6,
+      items: 5,
     },
   };
   return (

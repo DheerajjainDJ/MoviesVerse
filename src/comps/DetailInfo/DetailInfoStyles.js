@@ -16,12 +16,12 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: "50px",
   },
   overViewText: {
-    fontSize: "18px",
+    fontSize: "1.2rem",
     color: "lightgray",
     textAlign: "justify",
     marginTop: "5px",
     [theme.breakpoints.down("md")]: {
-      fontSize: "15px",
+      fontSize: "1rem",
     },
   },
   overviewReadMore: {

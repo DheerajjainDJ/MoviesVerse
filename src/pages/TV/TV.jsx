@@ -2,17 +2,17 @@ import React, { useEffect, useCallback } from "react";
 import { Container, Typography, Grid, Box } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import SingleContent from "../singleContent/SingleContent";
-import CustomPagination from "../customPagination/CustomPagination";
-import Genres from "../Genres/Genres";
-import useGenre from "../Genres/useGenre";
 import {
   fetchTvGenres,
   selectGenres,
   removeSelectedGenres,
 } from "../../features/tv/tvSlice";
+import SingleContent from "../../comps/singleContent/SingleContent";
+import Shimmer from "../../comps/ShimmerUI/Shimmer";
+import CustomPagination from "../../comps/customPagination/CustomPagination";
+import Genres from "../../comps/Genres/Genres";
+import useGenre from "../../comps/Genres/useGenre";
 import { useGetTvDataQuery } from "../../services/tmdbCore";
-import Loader from "../Loader/Loader";
 
 const TV = () => {
   const { page } = useParams();
@@ -38,7 +38,6 @@ const TV = () => {
     navigate("/tv/1");
   }, []);
 
-  if (isFetching) return <Loader />;
   return (
     <Container maxWidth="lg">
       <Typography align="center" variant="h4" pt="35px" color="#fff">
@@ -52,25 +51,29 @@ const TV = () => {
           selectedDeletionHandler={selectedDeletionHandler}
         />
       </Box>
-      <Grid
-        container
-        spacing={4}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {tvData &&
-          tvData.results?.map((tc) => (
-            <SingleContent
-              key={tc.id}
-              id={tc.id}
-              mediaType="tv"
-              title={tc.name || tc.original_name}
-              posterPath={tc.poster_path}
-              voteAverage={tc.vote_average}
-            />
-          ))}
-      </Grid>
+      {isFetching ? (
+        <Shimmer />
+      ) : (
+        <Grid
+          container
+          spacing={4}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {tvData &&
+            tvData.results?.map((tc) => (
+              <SingleContent
+                key={tc.id}
+                id={tc.id}
+                mediaType="tv"
+                title={tc.name || tc.original_name}
+                posterPath={tc.poster_path}
+                voteAverage={tc.vote_average}
+              />
+            ))}
+        </Grid>
+      )}
       <CustomPagination
         type="tv"
         page={page}

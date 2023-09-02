@@ -25,7 +25,12 @@ const MoreInfo = ({ id, type }) => {
     if (trailer) {
       videoKey = trailer.key;
     } else {
-      videoKey = video?.results?.find((res) => res.type === "Teaser").key;
+      let teaser = video?.results?.find((res) => res.type === "Teaser");
+      if (teaser) {
+        videoKey = teaser.key;
+      } else {
+        videoKey = video?.results[0].key;
+      }
     }
   }
 

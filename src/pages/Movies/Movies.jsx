@@ -7,11 +7,11 @@ import {
   selectGenres,
   removeSelectedGenres,
 } from "../../features/movies/moviesSlice";
-import SingleContent from "../singleContent/SingleContent";
-import CustomPagination from "../customPagination/CustomPagination";
-import Loader from "../Loader/Loader";
-import Genres from "../Genres/Genres";
-import useGenre from "../Genres/useGenre";
+import Genres from "../../comps/Genres/Genres";
+import Shimmer from "../../comps/ShimmerUI/Shimmer";
+import SingleContent from "../../comps/singleContent/SingleContent";
+import CustomPagination from "../../comps/customPagination/CustomPagination";
+import useGenre from "../../comps/Genres/useGenre";
 import { useGetMoviesQuery } from "../../services/tmdbCore";
 
 const Movies = () => {
@@ -43,7 +43,6 @@ const Movies = () => {
     navigate("/movie/1");
   }, []);
 
-  if (isFetching) return <Loader />;
   return (
     <Container maxWidth="lg">
       <Typography align="center" variant="h4" pt="30px" color="#fff">
@@ -57,25 +56,30 @@ const Movies = () => {
           selectedDeletionHandler={selectedDeletionHandler}
         />
       </Box>
-      <Grid
-        container
-        spacing={4}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {moviesData &&
-          moviesData.results.map((mc) => (
-            <SingleContent
-              key={mc.id}
-              id={mc.id}
-              mediaType="movie"
-              title={mc.title || mc.original_title}
-              posterPath={mc.poster_path}
-              voteAverage={mc.vote_average}
-            />
-          ))}
-      </Grid>
+      {isFetching ? (
+        <Shimmer />
+      ) : (
+        <Grid
+          container
+          spacing={4}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {moviesData &&
+            moviesData.results.map((mc) => (
+              <SingleContent
+                key={mc.id}
+                id={mc.id}
+                mediaType="movie"
+                title={mc.title || mc.original_title}
+                posterPath={mc.poster_path}
+                voteAverage={mc.vote_average}
+              />
+            ))}
+        </Grid>
+      )}
+
       <CustomPagination
         type="movie"
         page={page}

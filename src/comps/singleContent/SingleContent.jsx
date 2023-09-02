@@ -7,7 +7,7 @@ import {
   CardContent,
   Box,
 } from "@mui/material";
-import { img_300, unavailable } from "../../utils";
+import { img_300, unavailable } from "../../utils/utils";
 import { useStyles } from "./singleContentStyle";
 import { Link } from "react-router-dom";
 
@@ -63,7 +63,7 @@ const SingleContent = ({
               <Typography variant="body1" fontWeight="bold">
                 {title}
               </Typography>
-              {voteAverage !== 0 && (
+              {voteAverage !== 0 ? (
                 <Box>
                   <Typography
                     sx={{
@@ -77,6 +77,10 @@ const SingleContent = ({
                     {voteAverage && voteAverage.toFixed(1)}
                   </Typography>
                 </Box>
+              ) : (
+                <Typography variant="caption" fontWeight={"bold"} textAlign={"end"}>
+                  Not Rated
+                </Typography>
               )}
             </Box>
           </CardContent>

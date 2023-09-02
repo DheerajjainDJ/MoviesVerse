@@ -6,7 +6,7 @@ export const theme = createTheme({
       styleOverrides: {
         label: {
           color: "#fff",
-          fontSize: "13px",
+          fontSize: "0.8rem",
           fontWeight: "bold",
         },
       },
@@ -16,7 +16,7 @@ export const theme = createTheme({
         root: {
           color: "#FFDE00",
           fontWeight: "bold",
-          fontSize: "13px",
+          fontSize: "0.8rem",
           border: "1px solid #FFDE00",
         },
       },
@@ -33,7 +33,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           color: "#fff",
-          fontSize: "20px",
+          fontSize: "1.3rem",
         },
       },
     },
@@ -47,14 +47,14 @@ export const theme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: "2px 10px",
+          padding: "6px 10px",
         },
       },
     },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          fontSize: "14px",
+          fontSize: "1rem",
         },
       },
     },

@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { Box, Container, Grid, Pagination } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import SingleContent from "../singleContent/SingleContent";
-import SearchUtils from "./SearchUtils/SearchUtils";
-import SearchStates from "./SearchUtils/SearchStates";
 import { makeStyles } from "@mui/styles";
 import { fetchSearch } from "../../features/search/searchSlice";
+import SingleContent from "../../comps/singleContent/SingleContent";
+import SearchUtils from "./SearchUtils/SearchUtils";
+import SearchStates from "./SearchUtils/SearchStates";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
