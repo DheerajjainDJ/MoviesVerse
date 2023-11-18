@@ -21,3 +21,13 @@ export const durToHr = (duration) => {
     return `${hr}h ${min}min`;
   }
 };
+
+export const voteAverageColor = (vote) => {
+  if (vote >= 8) {
+    return "green";
+  } else if (vote >= 6) {
+    return "orange";
+  } else {
+    return "red";
+  }
+};

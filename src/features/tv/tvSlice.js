@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
+  isGenresFetching: false,
   tvGenres: [],
   selectedTvGenres: [],
 };
@@ -10,7 +11,7 @@ export const fetchTvGenres = createAsyncThunk(
   "tvGenres/fetchTvGenres",
   async () => {
     let response = await axios.get(
-      `https://api.themoviedb.org/3/genre/tv/list?api_key=1d7ae0508105d90d7af9b43e174d4f9d&language=en-US`
+      `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
     );
     return response.data;
   }
@@ -38,8 +39,12 @@ const tvSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchTvGenres.pending, (state, action) => {
+      state.isGenresFetching = true;
+    });
     builder.addCase(fetchTvGenres.fulfilled, (state, action) => {
       state.tvGenres = action.payload.genres;
+      state.isGenresFetching = false;
     });
     builder.addCase(fetchTvGenres.rejected, (state, action) => {
       console.log(action.error.message);

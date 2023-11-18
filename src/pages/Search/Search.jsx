@@ -48,7 +48,7 @@ const Search = () => {
           <Grid
             container
             direction="row"
-            spacing={4}
+            spacing={5}
             alignItems="center"
             justifyContent="center"
             py={2}
@@ -63,15 +63,11 @@ const Search = () => {
             )}
             {searchState?.total_results !== 0 ? (
               searchState?.results &&
-              searchState?.results.map((c) => (
+              searchState?.results.map((searchItem) => (
                 <SingleContent
                   page="search"
-                  key={c.id}
-                  id={c.id}
-                  title={c.title || c.name}
-                  posterPath={c.poster_path}
-                  voteAverage={c.vote_average}
-                  mediaType={c.media_type}
+                  key={searchItem.id}
+                  {...searchItem}
                 />
               ))
             ) : (
@@ -83,7 +79,7 @@ const Search = () => {
               />
             )}
           </Grid>
-          {totalSearchPages.current >= 1 && (
+          {searchState.total_results > 1 && (
             <Box className={classes.pagination}>
               <Pagination
                 count={totalSearchPages.current}

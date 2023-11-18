@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
@@ -56,7 +56,7 @@ const MoreCarousel = ({ type, content }) => {
     >
       {content?.map((c) => (
         <Link
-          key={c.id}
+          key={c?.id}
           to={`/info/${type}/${c.id}`}
           onClick={() => window.scroll(0, 0)}
           style={{
@@ -69,13 +69,15 @@ const MoreCarousel = ({ type, content }) => {
               <Box
                 component="img"
                 loading="lazy"
-                src={c.poster_path ? `${img_300}${c.poster_path}` : unavailable}
-                alt={c.title || c.name}
+                src={
+                  c?.poster_path ? `${img_300}${c.poster_path}` : unavailable
+                }
+                alt={c?.title || c?.name}
                 className={classes.carouselImage}
               />
             </Box>
             <Typography variant="subtitle1" color="#fff" mt={1}>
-              {c.title || c.name}
+              {c?.title || c?.name}
             </Typography>
           </Box>
         </Link>
@@ -84,4 +86,4 @@ const MoreCarousel = ({ type, content }) => {
   );
 };
 
-export default MoreCarousel;
+export default memo(MoreCarousel);

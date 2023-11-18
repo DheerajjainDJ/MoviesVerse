@@ -1,85 +1,93 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
-import AliceCarousel from "react-alice-carousel";
-import "react-alice-carousel/lib/alice-carousel.css";
+import React, { memo } from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { img_300 } from "../../utils/utils";
+import { Box, Typography, Stack } from "@mui/material";
 
-const Carousel = ({ carouselContent }) => {
-  const handleDragStart = (e) => e.preventDefault();
-
-  const items =
-    carouselContent &&
-    carouselContent.map((c) => (
-      <Stack spacing={1} alignItems="center" justifyContent="center">
-        {c.profile_path ? (
-          <Box
-            component="img"
-            loading="lazy"
-            src={`${img_300}${c.profile_path}`}
-            alt="cast"
-            onDragStart={handleDragStart}
-            sx={{
-              borderRadius: "100%",
-              width: { xs: "110px", md: "150px" },
-              height: { xs: "110px", md: "150px" },
-              margin: "10px",
-              boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
-            }}
-          />
-        ) : (
-          <Box
-            sx={{
-              backgroundColor: "lightgray",
-              borderRadius: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-              width: { xs: "110px", md: "150px" },
-              height: { xs: "110px", md: "150px" },
-              margin: "10px",
-              boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
-            }}
-          >
-            <Typography variant="h4">
-              {c.name.split(" ").map((n) => n.charAt(0))}
-            </Typography>
-          </Box>
-        )}
-        <Typography variant="body1" align="center" color="#fff">
-          {c.name}
-        </Typography>
-        <Typography
-          variant="caption"
-          fontWeight="bold"
-          color="gray"
-          align="center"
-        >
-          {c.character || c.job}
-        </Typography>
-      </Stack>
-    ));
-
+const CastCarousel = ({ carouselContent }) => {
   const responsive = {
-    0: {
-      items: 3,
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
     },
-    512: {
-      items: 3,
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
     },
-    1024: {
-      items: 5,
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2,
     },
   };
+
   return (
-    <AliceCarousel
-      items={items}
+    <Carousel
       responsive={responsive}
-      mouseTracking
-      infinite
-      disableDotsControls
-    />
+      swipeable={true}
+      draggable={true}
+      infinite={true}
+      centerMode={true}
+      autoPlay={true}
+      keyBoardControl={true}
+      autoPlaySpeed={8000}
+      containerClass="carousel-container"
+      dotListClass="custom-dot-list-style"
+      itemClass="carousel-item-padding-40-px"
+    >
+      {carouselContent?.map((c) => (
+        <Stack
+          key={c.id}
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {c?.profile_path ? (
+            <Box
+              component="img"
+              loading="lazy"
+              src={`${img_300}${c?.profile_path}`}
+              alt="cast"
+              sx={{
+                borderRadius: "100%",
+                width: { xs: "100px", md: "140px" },
+                height: { xs: "100px", md: "140px" },
+                boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
+              }}
+            />
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: "lightgray",
+                borderRadius: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                width: { xs: "100px", md: "140px" },
+                height: { xs: "100px", md: "140px" },
+                boxShadow: "inset 0px 1px 2px rgba(0,0,0,0.25)",
+              }}
+            >
+              <Typography variant="h4">
+                {c?.name?.split(" ").map((n) => n.charAt(0))}
+              </Typography>
+            </Box>
+          )}
+          <Typography variant="body1" align="center" color="#fff">
+            {c?.name}
+          </Typography>
+          <Typography
+            variant="caption"
+            fontWeight="bold"
+            color="gray"
+            align="center"
+          >
+            {c?.character || c?.job}
+          </Typography>
+        </Stack>
+      ))}
+    </Carousel>
   );
 };
 
-export default Carousel;
+export default memo(CastCarousel);

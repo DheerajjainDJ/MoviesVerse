@@ -12,9 +12,6 @@ export const useStyles = makeStyles((theme) => ({
       padding: "35px 5px",
     },
   },
-  gridItem2: {
-    marginTop: "50px",
-  },
   overViewText: {
     fontSize: "1.2rem",
     color: "lightgray",
@@ -25,7 +22,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   overviewReadMore: {
-    display:"inline",
+    display: "inline",
     cursor: "pointer",
     color: "gray",
     transition: "color 0.4s",

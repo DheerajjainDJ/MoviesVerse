@@ -11,7 +11,7 @@ export const fetchSearch = createAsyncThunk(
   async (args) => {
     const { searchQuery, page } = args;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/search/multi?api_key=1d7ae0508105d90d7af9b43e174d4f9d&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`
+      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`
     );
     return response.data;
   }

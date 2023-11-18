@@ -45,7 +45,7 @@ const NavList = () => {
           />
         </ListItem>
       </NavLink>
-      <NavLink to="/movie/1" style={navLinkStyles}>
+      <NavLink to="/movies" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{
@@ -62,7 +62,7 @@ const NavList = () => {
           />
         </ListItem>
       </NavLink>
-      <NavLink to="/tv/1" style={navLinkStyles}>
+      <NavLink to="/tv" style={navLinkStyles}>
         <ListItem disablePadding className={classes.list}>
           <ListItemIcon
             sx={{

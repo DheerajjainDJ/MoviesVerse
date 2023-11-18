@@ -2,19 +2,19 @@ import React from "react";
 import { Chip, Box } from "@mui/material";
 import { useStyles } from "./genresStyles";
 
-const Genres = (prop) => {
+const Genres = (props) => {
   const {
     genres,
     selectedGenres,
     selectedGenreHandler,
     selectedDeletionHandler,
-  } = prop;
+  } = props;
   const classes = useStyles();
 
   return (
     <Box className={classes.chipBox}>
       {selectedGenres &&
-        selectedGenres.map((sg) => (
+        selectedGenres?.map((sg) => (
           <Chip
             key={sg.id}
             label={sg.name}
@@ -29,7 +29,7 @@ const Genres = (prop) => {
         ))}
 
       {genres &&
-        genres.map((genre) => (
+        genres?.map((genre) => (
           <Chip
             key={genre.id}
             label={genre.name}

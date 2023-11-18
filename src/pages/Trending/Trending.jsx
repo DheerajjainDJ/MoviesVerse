@@ -49,21 +49,17 @@ const Trending = () => {
         <Grid
           container
           direction="row"
-          spacing={4}
+          spacing={5}
           alignItems="center"
           justifyContent="center"
           pb="10px"
         >
-          {trending.results &&
-            trending.results.map((tc) => (
+          {trending?.results &&
+            trending?.results?.map((trendingItem) => (
               <SingleContent
                 page="trending"
-                key={tc.id}
-                id={tc.id}
-                title={tc.title || tc.name}
-                posterPath={tc.poster_path}
-                voteAverage={tc.vote_average}
-                mediaType={tc.media_type}
+                key={trendingItem.id}
+                {...trendingItem}
               />
             ))}
         </Grid>

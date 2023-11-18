@@ -13,12 +13,13 @@ import SingleContent from "../../comps/singleContent/SingleContent";
 import CustomPagination from "../../comps/customPagination/CustomPagination";
 import useGenre from "../../comps/Genres/useGenre";
 import { useGetMoviesQuery } from "../../services/tmdbCore";
+import GenresShimmer from "../../comps/ShimmerUI/GenresShimmer";
 
 const Movies = () => {
   const { page } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { moviesGenres, moviesSelectedGenres } = useSelector(
+  const { isGenresFetching, moviesGenres, moviesSelectedGenres } = useSelector(
     (state) => state.movies
   );
   const genreForUrl = useGenre(moviesSelectedGenres);
@@ -35,12 +36,12 @@ const Movies = () => {
 
   const selectedGenreHandler = useCallback((genre) => {
     dispatch(selectGenres(genre));
-    navigate("/movie/1");
+    navigate("/movies");
   }, []);
 
   const selectedDeletionHandler = useCallback((genre) => {
     dispatch(removeSelectedGenres(genre));
-    navigate("/movie/1");
+    navigate("/movies");
   }, []);
 
   return (
@@ -49,40 +50,41 @@ const Movies = () => {
         MOVIES
       </Typography>
       <Box py="15px" textAlign="center">
-        <Genres
-          genres={moviesGenres}
-          selectedGenres={moviesSelectedGenres}
-          selectedGenreHandler={selectedGenreHandler}
-          selectedDeletionHandler={selectedDeletionHandler}
-        />
+        {isGenresFetching ? (
+          <GenresShimmer />
+        ) : (
+          <Genres
+            genres={moviesGenres}
+            selectedGenres={moviesSelectedGenres}
+            selectedGenreHandler={selectedGenreHandler}
+            selectedDeletionHandler={selectedDeletionHandler}
+          />
+        )}
       </Box>
       {isFetching ? (
         <Shimmer />
       ) : (
         <Grid
           container
-          spacing={4}
+          spacing={5}
           direction="row"
           alignItems="center"
           justifyContent="center"
         >
           {moviesData &&
-            moviesData.results.map((mc) => (
+            moviesData?.results?.map((movieItem) => (
               <SingleContent
-                key={mc.id}
-                id={mc.id}
-                mediaType="movie"
-                title={mc.title || mc.original_title}
-                posterPath={mc.poster_path}
-                voteAverage={mc.vote_average}
+                key={movieItem.id}
+                media_type="movie"
+                {...movieItem}
               />
             ))}
         </Grid>
       )}
 
       <CustomPagination
-        type="movie"
-        page={page}
+        type="movies"
+        page={Number(page) > 1 ? Number(page) : 1}
         totalPage={
           moviesData && moviesData?.total_pages > 400
             ? 400

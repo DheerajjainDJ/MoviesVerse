@@ -13,11 +13,14 @@ import CustomPagination from "../../comps/customPagination/CustomPagination";
 import Genres from "../../comps/Genres/Genres";
 import useGenre from "../../comps/Genres/useGenre";
 import { useGetTvDataQuery } from "../../services/tmdbCore";
+import GenresShimmer from "../../comps/ShimmerUI/GenresShimmer";
 
 const TV = () => {
   const { page } = useParams();
   const navigate = useNavigate();
-  const { tvGenres, selectedTvGenres } = useSelector((state) => state.tv);
+  const { isGenresFetching, tvGenres, selectedTvGenres } = useSelector(
+    (state) => state.tv
+  );
   const genreForUrl = useGenre(selectedTvGenres);
   const { data: tvData, isFetching } = useGetTvDataQuery({ page, genreForUrl });
   const dispatch = useDispatch();
@@ -28,15 +31,21 @@ const TV = () => {
     }
   }, [dispatch]);
 
-  const selectedGenreHandler = useCallback((genre) => {
-    dispatch(selectGenres(genre));
-    navigate("/tv/1");
-  }, []);
+  const selectedGenreHandler = useCallback(
+    (genre) => {
+      dispatch(selectGenres(genre));
+      navigate("/tv");
+    },
+    [dispatch, navigate]
+  );
 
-  const selectedDeletionHandler = useCallback((genre) => {
-    dispatch(removeSelectedGenres(genre));
-    navigate("/tv/1");
-  }, []);
+  const selectedDeletionHandler = useCallback(
+    (genre) => {
+      dispatch(removeSelectedGenres(genre));
+      navigate("/tv");
+    },
+    [dispatch, navigate]
+  );
 
   return (
     <Container maxWidth="lg">
@@ -44,39 +53,36 @@ const TV = () => {
         TV
       </Typography>
       <Box py="16px" textAlign="center">
-        <Genres
-          genres={tvGenres}
-          selectedGenres={selectedTvGenres}
-          selectedGenreHandler={selectedGenreHandler}
-          selectedDeletionHandler={selectedDeletionHandler}
-        />
+        {isGenresFetching ? (
+          <GenresShimmer />
+        ) : (
+          <Genres
+            genres={tvGenres}
+            selectedGenres={selectedTvGenres}
+            selectedGenreHandler={selectedGenreHandler}
+            selectedDeletionHandler={selectedDeletionHandler}
+          />
+        )}
       </Box>
       {isFetching ? (
         <Shimmer />
       ) : (
         <Grid
           container
-          spacing={4}
+          spacing={5}
           direction="row"
           alignItems="center"
           justifyContent="center"
         >
           {tvData &&
-            tvData.results?.map((tc) => (
-              <SingleContent
-                key={tc.id}
-                id={tc.id}
-                mediaType="tv"
-                title={tc.name || tc.original_name}
-                posterPath={tc.poster_path}
-                voteAverage={tc.vote_average}
-              />
+            tvData?.results?.map((tvItem) => (
+              <SingleContent key={tvItem.id} media_type="tv" {...tvItem} />
             ))}
         </Grid>
       )}
       <CustomPagination
         type="tv"
-        page={page}
+        page={Number(page) > 1 ? Number(page) : 1}
         totalPage={tvData?.total_pages > 200 ? 200 : tvData?.total_pages}
       />
     </Container>

@@ -1,9 +1,13 @@
+import { useState, useEffect } from "react";
 const useGenre = (selectedGenres) => {
-  if (selectedGenres.length < 1) {
-    return "";
-  }
+  const [selectedGeneresIds, setSelectedGeneresIds] = useState("");
 
-  const selectedGeneresIds = selectedGenres.map((sg) => sg.id).join(",");
+  useEffect(() => {
+    if (selectedGenres.length < 1) {
+      return;
+    }
+    setSelectedGeneresIds(selectedGenres.map((sg) => sg.id).join(","));
+  }, [selectedGenres]);
   return selectedGeneresIds;
 };
 

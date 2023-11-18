@@ -9,7 +9,7 @@ import {
   Drawer,
 } from "@mui/material";
 import { Menu, CloseRounded } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import NavList from "./NavList";
 import { useStyles } from "./HeaderStyles";
 
@@ -42,6 +42,7 @@ const Header = () => {
   return (
     <>
       <AppBar
+        position="sticky"
         sx={{
           boxShadow: "none",
           backgroundColor: "#FFDE00",
@@ -52,12 +53,12 @@ const Header = () => {
             <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
               <Typography
                 sx={{
-                  fontSize: { xs: "17px", md: "29px" },
-                  letterSpacing: "1.5px",
+                  fontSize: { xs: "1rem", md: "1.9rem" },
+                  letterSpacing: "1.1px",
                 }}
                 color="black"
               >
-                MOVIESVERSE
+                Moviesverse
               </Typography>
             </Link>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
@@ -97,9 +98,9 @@ const Header = () => {
           top: { xs: "56px", md: "64px" },
           left: "0px",
           zIndex: 3,
-          transition:"all"
         }}
       ></Box>
+      <Outlet />
     </>
   );
 };

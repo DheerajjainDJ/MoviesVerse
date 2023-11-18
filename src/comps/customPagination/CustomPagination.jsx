@@ -19,9 +19,18 @@ const CustomPagination = ({ type, page, totalPage }) => {
   const navigate = useNavigate();
 
   const handlePageChange = (event, value) => {
+    console.log(value)
     window.scroll(0, 0);
+    if (value === 1) {
+      return navigate("/movies");
+    }
     navigate(`/${type}/${value}`);
   };
+
+  // const handlePageChange = (event, value) => {
+  //   window.scroll(0, 0);
+  //   navigate(`/${type}/${value}`);
+  // };
   return (
     <Box className={classes.pagination}>
       <Pagination

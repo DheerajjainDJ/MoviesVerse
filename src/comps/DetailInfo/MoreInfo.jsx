@@ -1,10 +1,11 @@
-import React, { lazy, Suspense } from "react";
+import React, { useEffect, lazy, Suspense, useState, useMemo } from "react";
 import {
   Container,
   Box,
   Typography,
   Divider,
   CircularProgress,
+  Skeleton,
 } from "@mui/material";
 import ReactPlayer from "react-player";
 import {
@@ -12,41 +13,58 @@ import {
   useGetCastAndCrewQuery,
   useGetSimilarContentQuery,
 } from "../../services/tmdbCore";
+import RoundedShimmer from "../ShimmerUI/RoundedShimmer";
 const Carousel = lazy(() => import("./Carousel"));
 const MoreCarousel = lazy(() => import("./MoreCarousel"));
 
 const MoreInfo = ({ id, type }) => {
-  const { data: video } = useGetVideoKeyQuery({ type, id });
+  // const [videoKey, setVideoKey] = useState("");
+  const { data: video, isFetching: isVideoFetching } = useGetVideoKeyQuery({
+    type,
+    id,
+  });
   const { data: content } = useGetCastAndCrewQuery({ type, id });
   const { data: similarContent } = useGetSimilarContentQuery({ type, id });
-  let videoKey;
-  if (video && video?.results?.length) {
-    let trailer = video?.results?.find((res) => res.type === "Trailer");
-    if (trailer) {
-      videoKey = trailer.key;
-    } else {
-      let teaser = video?.results?.find((res) => res.type === "Teaser");
-      if (teaser) {
-        videoKey = teaser.key;
+
+  let videoKey = useMemo(() => {
+    if (video && video?.results?.length) {
+      let trailer = video?.results?.find((res) => res?.type === "Trailer");
+      if (trailer) {
+        return trailer?.key;
       } else {
-        videoKey = video?.results[0].key;
+        let teaser = video?.results?.find((res) => res.type === "Teaser");
+        if (teaser) {
+          return teaser?.key;
+        } else {
+          return video?.results[0].key;
+        }
       }
     }
-  }
+  }, [video]);
 
   return (
     <>
-      {videoKey && (
-        <Box py={3} sx={{ backgroundColor: "#151515" }}>
-          <Container maxWidth="md">
-            <ReactPlayer
-              controls
-              width="100%"
-              url={`https://www.youtube.com/watch?v=${videoKey}`}
+      <Box py={3} sx={{ backgroundColor: "#151515" }}>
+        <Container maxWidth="md">
+          {isVideoFetching ? (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={360}
+              sx={{ bgcolor: "grey.900" }}
             />
-          </Container>
-        </Box>
-      )}
+          ) : (
+            videoKey && (
+              <ReactPlayer
+                controls
+                width="100%"
+                url={`https://www.youtube.com/watch?v=${videoKey}`}
+              />
+            )
+          )}
+        </Container>
+      </Box>
+
       <Divider color="gray" />
       {content && content?.cast?.length !== 0 ? (
         <>
@@ -61,7 +79,7 @@ const MoreInfo = ({ id, type }) => {
               >
                 Cast
               </Typography>
-              <Suspense fallback={<CircularProgress />}>
+              <Suspense fallback={<RoundedShimmer />}>
                 <Carousel carouselContent={content?.cast} />
               </Suspense>
             </Container>
@@ -82,7 +100,7 @@ const MoreInfo = ({ id, type }) => {
               >
                 Crew
               </Typography>
-              <Suspense fallback={<CircularProgress />}>
+              <Suspense fallback={<RoundedShimmer />}>
                 <Carousel carouselContent={content?.crew} />
               </Suspense>
             </Container>
@@ -102,7 +120,7 @@ const MoreInfo = ({ id, type }) => {
             >
               More like this
             </Typography>
-            <Suspense fallback={<CircularProgress />}>
+            <Suspense fallback={<RoundedShimmer />}>
               <MoreCarousel type={type} content={similarContent?.results} />
             </Suspense>
           </Container>
